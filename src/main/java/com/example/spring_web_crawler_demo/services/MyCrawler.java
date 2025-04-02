@@ -186,7 +186,7 @@ public class MyCrawler extends WebCrawler{
         }
 
         //PublishedBy
-        estate.setPublishedFrom("olx.bg");
+        estate.setListingUrl("olx.bg");
 
         return estate;
     }
@@ -274,7 +274,7 @@ public class MyCrawler extends WebCrawler{
         }
 
         //PublishedBy
-        estate.setPublishedFrom("alo.bg");
+        estate.setListingUrl("alo.bg");
 
         return estate;
     }
