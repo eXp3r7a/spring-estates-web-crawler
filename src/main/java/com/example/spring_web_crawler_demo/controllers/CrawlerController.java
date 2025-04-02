@@ -33,13 +33,13 @@ public class CrawlerController {
             // Step 1: Set up the crawl configuration
             CrawlConfig config = new CrawlConfig();
             config.setCrawlStorageFolder("/tmp/crawler/"); // Temporary storage folder
-            config.setPolitenessDelay(1000);
+            config.setPolitenessDelay(5000);
             config.setMaxDepthOfCrawling(2); // Limit the depth of crawling
             config.setMaxPagesToFetch(50); // Limit the number of pages to fetch
 
             CrawlConfig config2 = new CrawlConfig();
             config2.setCrawlStorageFolder("/tmp/crawler2/"); // Temporary storage folder
-            config2.setPolitenessDelay(1000);
+            config2.setPolitenessDelay(5000);
             config2.setMaxDepthOfCrawling(2); // Limit the depth of crawling
             config2.setMaxPagesToFetch(50); // Limit the number of pages to fetch
 
@@ -56,8 +56,8 @@ public class CrawlerController {
             CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
             CrawlController controller2 = new CrawlController(config2, pageFetcher2, robotstxtServer);
 
-            List<String> crawler1Domain = ImmutableList.of("https://www.olx.bg/");
-            List<String> crawler2Domain = ImmutableList.of("https://www.alo.bg/");
+            List<String> crawler1Domain = ImmutableList.of("https://www.olx.bg/q-imoti/");
+            List<String> crawler2Domain = ImmutableList.of("https://www.alo.bg/obiavi/imoti-prodajbi/apartamenti-stai/");
 
             // Add seed URLs (starting points for the crawler)
             controller.addSeed("https://www.olx.bg/q-imoti/");
@@ -69,7 +69,7 @@ public class CrawlerController {
 
             // The first crawler will have 5 concurrent threads and the second crawler will have 7 threads.
             controller.startNonBlocking(factory1, 4);
-            controller2.startNonBlocking(factory2, 7);
+            controller2.startNonBlocking(factory2, 4);
 
             controller.waitUntilFinish();
             logger.info("Crawler 1 is finished.");
