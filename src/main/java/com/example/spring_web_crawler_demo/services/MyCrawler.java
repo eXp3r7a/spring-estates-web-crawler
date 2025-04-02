@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +64,13 @@ public class MyCrawler extends WebCrawler{
     public void visit(Page page) {
         String url = page.getWebURL().getURL(); // Get the page URL
 
+        String proxyHost = "127.0.0.1"; // Replace with a valid proxy IP
+        int proxyPort = 9050; // Replace with a valid proxy port
+
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
+
         try {
+            Thread.sleep(3000);
             // Fetch and parse the page with Jsoup
             Document document = Jsoup.connect(url).get();
             String title = document.title();
@@ -88,7 +96,7 @@ public class MyCrawler extends WebCrawler{
                                 writer.write("content " + estate + "\n");
                             }*/
                         }
-                    }else if (url.contains("alo.bg")){
+                    }else if (url.contains("alo.bg") && !content.contains("Публикувай обява Вход / Регистрация Вход")){
                         List<Estate> estatesAloBg = handleCrawlerDataFromAloBg(content);
                         if(!estatesAloBg.isEmpty()){
                             estateRepository.saveAll(estatesAloBg);
@@ -104,6 +112,8 @@ public class MyCrawler extends WebCrawler{
 
         } catch (IOException e) {
             e.printStackTrace(); // Handle exceptions
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -233,7 +243,10 @@ public class MyCrawler extends WebCrawler{
         if(contentRow[3].length()<3){ // if true then [3] is floor
             estate.setFloor(Integer.parseInt(contentRow[3]));
         }
-        else{ // if false then [3] is construction year, [4] is floor position
+        else if (contentRow[3].length() == 4){ // if true then [3] is year
+            estate.setYearOfConstruction(Integer.parseInt(contentRow[3]));
+        }
+        else { // if false then [3] is construction year, [4] is floor position
             estate.setYearOfConstruction(Integer.parseInt(contentRow[3]));
             estate.setFloor(Integer.parseInt(contentRow[4]));
         }
