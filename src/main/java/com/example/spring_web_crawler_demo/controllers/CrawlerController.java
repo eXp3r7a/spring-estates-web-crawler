@@ -1,7 +1,7 @@
 package com.example.spring_web_crawler_demo.controllers;
 
 import com.example.spring_web_crawler_demo.repositories.EstateRepository;
-import com.example.spring_web_crawler_demo.services.MyCrawler;
+import com.example.spring_web_crawler_demo.services.CrawlerService;
 import com.google.common.collect.ImmutableList;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -18,11 +18,10 @@ import java.util.List;
 @RestController
 public class CrawlerController {
 
-    private final MyCrawler myCrawler;
+    //private final MyCrawler myCrawler;
     private final EstateRepository estateRepository;
 
-    public CrawlerController(MyCrawler myCrawler, EstateRepository estateRepository){
-        this.myCrawler = myCrawler;
+    public CrawlerController(EstateRepository estateRepository){
         this.estateRepository = estateRepository;
     }
     private static final Logger logger = LoggerFactory.getLogger(CrawlerController.class);
@@ -64,8 +63,8 @@ public class CrawlerController {
             controller2.addSeed("https://www.alo.bg/obiavi/imoti-prodajbi/apartamenti-stai/");
 
             // Step 5: Start the crawl using your CustomCrawler class
-            CrawlController.WebCrawlerFactory<MyCrawler> factory1 = () -> new MyCrawler(crawler1Domain, estateRepository);
-            CrawlController.WebCrawlerFactory<MyCrawler> factory2 = () -> new MyCrawler(crawler2Domain, estateRepository);
+            CrawlController.WebCrawlerFactory<CrawlerService> factory1 = () -> new CrawlerService(crawler1Domain, estateRepository);
+            CrawlController.WebCrawlerFactory<CrawlerService> factory2 = () -> new CrawlerService(crawler2Domain, estateRepository);
 
             // The first crawler will have 5 concurrent threads and the second crawler will have 7 threads.
             controller.startNonBlocking(factory1, 4);
