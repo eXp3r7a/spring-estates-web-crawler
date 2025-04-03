@@ -68,7 +68,7 @@ public class CrawlerController {
 
             // The first crawler will have 5 concurrent threads and the second crawler will have 7 threads.
             controller.startNonBlocking(factory1, 4);
-            controller2.startNonBlocking(factory2, 4);
+            controller2.startNonBlocking(factory2, 5);
 
             controller.waitUntilFinish();
             logger.info("Crawler 1 is finished.");

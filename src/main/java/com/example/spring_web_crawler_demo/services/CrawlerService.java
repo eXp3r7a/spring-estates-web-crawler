@@ -75,12 +75,12 @@ public class CrawlerService extends WebCrawler{
                     if(url.contains("olx.bg")){
                         List<Estate> estatesOlx = handleCrawlerDataFromOlxBg(content);
                         if (!estatesOlx.isEmpty()){
-                            estateRepository.saveAll(estatesOlx);
+                            //estateRepository.saveAll(estatesOlx);
                             /*for (Estate estate : estatesOlx){
                                 writer.write("content " + estate + "\n");
                             }*/
                         }
-                    }else if (url.contains("alo.bg") && !content.contains("Публикувай обява Вход / Регистрация Вход")){
+                    }else if (url.contains("alo.bg")){
                         List<Estate> estatesAloBg = handleCrawlerDataFromAloBg(content);
                         if(!estatesAloBg.isEmpty()){
                             estateRepository.saveAll(estatesAloBg);
@@ -177,6 +177,9 @@ public class CrawlerService extends WebCrawler{
 
     public List<Estate> handleCrawlerDataFromAloBg(String content){
         List<Estate> estateList = new ArrayList<>();
+
+        content=content.replaceAll("Toggle navigation Публикувай (.+?) Степен на завършеност преди 30+ дни","");
+        content=content.replaceAll("Сайт за обяви alo.bg (.+?) Вижте повече Ok","");
         //Every property to new line
         content=content.replaceAll("Вид на имота:\\s?","\n");
         content=content.replaceAll("Етажност:\\s?","\n");
@@ -196,7 +199,7 @@ public class CrawlerService extends WebCrawler{
         content=content.replaceAll("Обзавеждане:",",");
         content=content.replaceAll("Цена: ",","); //Price
         content=content.replaceAll("Номер на етажа:\\s?",","); //
-        content=content.replaceAll(" (\\d{4}) г\\.","$1"); //Year of construction
+        content=content.replaceAll(" (\\d{4}) г\\.","$1,"); //Year of construction
         content=content.replaceAll("(\\d{1,4} \\d{3}) EUR ","$1 EUR,");
         content=content.replaceAll("(\\d{1,4} \\d{3}) лв. ","$1 лв.,");
 
@@ -222,18 +225,18 @@ public class CrawlerService extends WebCrawler{
         Estate estate = new Estate();
 
         estate.setTitle(contentRow[0]);
-        estate.setArea(contentRow[1]);
+
+        //Area
+        if(contentRow[1].contains("кв.м")){
+            estate.setArea(contentRow[1]);
+        }
+        //Year of construction
+        if(contentRow[2].trim().length() == 4){
+            estate.setYearOfConstruction(Integer.parseInt(contentRow[2].trim()));
+        }
 
         //Floor
         if(contentRow[3].length()<3){ // if true then [3] is floor
-            estate.setYearOfConstruction(Integer.parseInt(contentRow[2].trim()));
-            estate.setFloor(Integer.parseInt(contentRow[3]));
-        }
-        else if (contentRow[3].length() == 4){ // if true then [3] is year
-            estate.setYearOfConstruction(Integer.parseInt(contentRow[3].trim()));
-        }
-        else { // if false then [3] is construction year, [4] is floor position
-            estate.setYearOfConstruction(Integer.parseInt(contentRow[2].trim()));
             estate.setFloor(Integer.parseInt(contentRow[3]));
         }
 
