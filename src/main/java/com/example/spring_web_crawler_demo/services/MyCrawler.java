@@ -44,10 +44,6 @@ public class MyCrawler extends WebCrawler{
 
     @Override
     public boolean shouldVisit(Page referringPage, WebURL url) {
-        //List<String> myCrawlDomains = new ArrayList<>();
-        //myCrawlDomains.add("https://www.olx.bg/");
-        //myCrawlDomains.add("https://www.alo.bg/");
-
         String href = url.getURL().toLowerCase();
         if (FILTERS.matcher(href).matches()) {
             return false;
@@ -121,6 +117,7 @@ public class MyCrawler extends WebCrawler{
         List<Estate> estateList = new ArrayList<>();
         content=content.replaceAll("Последвай \\s?",".\n");
         content=content.replaceAll("Промотирана обява\\s?","");
+        content=content.replaceAll("Запази търсенето Ще те известим, когато има нови обяви по зададените критерии. Запази \\s?","");
 
         // Split each row into parts (adjust the delimiter as needed)
         String[] rows = content.split("\n");
@@ -186,7 +183,7 @@ public class MyCrawler extends WebCrawler{
         }
 
         //PublishedBy
-        estate.setPublishedFrom("olx.bg");
+        estate.setListingUrl("olx.bg");
 
         return estate;
     }
@@ -274,7 +271,7 @@ public class MyCrawler extends WebCrawler{
         }
 
         //PublishedBy
-        estate.setPublishedFrom("alo.bg");
+        estate.setListingUrl("alo.bg");
 
         return estate;
     }

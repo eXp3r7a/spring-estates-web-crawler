@@ -75,11 +75,11 @@ public class Estate {
         this.price = price;
     }
 
-    public String getPublishedFrom() {
+    public String getListingUrl() {
         return listingUrl;
     }
 
-    public void setPublishedFrom(String listingUrl) {
+    public void setListingUrl(String listingUrl) {
         this.listingUrl = listingUrl;
     }
 

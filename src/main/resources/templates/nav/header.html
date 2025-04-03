@@ -1,0 +1,15 @@
+<nav class="navbar fixed-top top-sticky navbar-expand-lg bg-body-tertiary" th:fragment="header">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAIVBMVEVHcEwaZ0YYZ0QUZUEWZUIVZkIcZ0YcaEYSZUAaZ0UMZjzjeOdiAAAAC3RSTlMAQ1GMZHcSNaQk0JhpgMwAAAESSURBVCiRjVJZcsUwDEK7lPsfuCivzVuazlTxj4ORABt4q/QZxx9V6mJ3QA5q4JJ3YESGZd4SoUA3ynf9KleQpQ7TG9CoZdi5btq6Z/OE3w/tpqaOnajyaaWVqMGR0IoPR3002qi6EfM2mAe1yIQ5ZHziBR1LnpajhXiYpM1xBaAyEWra3j7Sk5qX26wY5IJtumX65sg8vU+Xohpt84TCp93DLaokyH81mhD3Fm8wROZwac06DZdUxDpViPjgYVXrR5gQsR7vktlLL2oWSS3OGojZ9i0hOwX8zqXcs0EcFmZUXfyF4ZNakMwFsbmk0sfIKfgEg0Y4Ja/QlruCaPuhetteiX6Hvkq2lvm8Rrl7Lv+sL2FYBir7IVLiAAAAAElFTkSuQmCC" width="40" height="40" class="d-inline-block align-top" alt="">
+      Ludogorie Soft Estates
+    </a>
+    <form class="d-flex" action="#" th:action="@{/estates/search}" method="get" role="search">
+      <input class="form-control border-success focus:border-success me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <form class="d-flex" action="#" th:action="@{/estates/get}" method="get">
+      <button class="btn btn-outline-success" type="submit">All List</button>
+    </form>
+  </div>
+</nav>
