@@ -35,7 +35,7 @@ public class EstateController {
         List<Estate> searchedEstates = estateRepository.searchEstates(keyword);
 
         if(searchedEstates.isEmpty()){
-            return "Unfortunately, no listings were found with this keyword. :/";
+            return "table/not_found";
         }else{
             model.addAttribute("estates", searchedEstates);
             return "table/get_table";

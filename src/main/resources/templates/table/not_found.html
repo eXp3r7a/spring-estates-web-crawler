@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Not found Estate</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body class="d-grid vh-100 justify-content-center align-items-center" style="padding-top: 6rem; padding-bottom: 6rem;">
+<header th:insert="nav/header.html :: header"></header>
+<div class="d-flex align-items-top justify-content-center vh-100">
+  <div class="text-center">
+    <h1 class="display-1 fw-bold">No listings were found</h1>
+    <p class="fs-3"> <span class="text-danger">Opps!</span> :/</p>
+    <p class="lead">
+      Unfortunately, no listings were found with this keyword.
+    </p>
+  </div>
+</div>
+</body>
+</html>
