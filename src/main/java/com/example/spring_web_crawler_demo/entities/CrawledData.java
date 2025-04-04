@@ -1,6 +1,5 @@
 package com.example.spring_web_crawler_demo.entities;
 
-import jakarta.persistence.*;
 
 public class CrawledData {
     private String url;

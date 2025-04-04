@@ -2,6 +2,8 @@ package com.example.spring_web_crawler_demo.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "estates")
 public class Estate {
@@ -94,5 +96,17 @@ public class Estate {
                 ", price='" + price + '\'' +
                 ", publishedFrom='" + listingUrl + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Estate estate = (Estate) o;
+        return yearOfConstruction == estate.yearOfConstruction && floor == estate.floor && Objects.equals(id, estate.id) && Objects.equals(title, estate.title) && Objects.equals(area, estate.area) && Objects.equals(location, estate.location) && Objects.equals(price, estate.price) && Objects.equals(listingUrl, estate.listingUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, area, yearOfConstruction, floor, location, price, listingUrl);
     }
 }
