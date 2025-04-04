@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/estates")
 public class EstateController {
@@ -24,13 +26,20 @@ public class EstateController {
     @GetMapping("/get")
     public String getAllEstates(Model model){
         model.addAttribute("estates", estateRepository.findAll());
+
         return "table/get_table";
     }
 
     @GetMapping("/search")
     public String searchEstates(@RequestParam("keyword") String keyword, Model model){
-        model.addAttribute("estates", estateService.searchEstates(keyword));
+        List<Estate> searchedEstates = estateRepository.searchEstates(keyword);
 
-        return "table/get_table";
+        if(searchedEstates.isEmpty()){
+            return "Unfortunately, no listings were found with this keyword. :/";
+        }else{
+            model.addAttribute("estates", estateService.searchEstates(keyword));
+            return "table/get_table";
+        }
+
     }
 }
