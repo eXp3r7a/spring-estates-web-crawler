@@ -59,7 +59,7 @@ public class EstateServiceTest {
     void testEstateRepositoryQueryWhenNotFound(){
         //GIVEN
         List<Estate> estatesExpected = new ArrayList<>();
-        String expected = "Unfortunately, no listings were found with this keyword. :/";
+        String expected = "table/not_found";
         //Listing is empty
         when(estateRepository.searchEstates("Несебър")).thenReturn(estatesExpected);
 
