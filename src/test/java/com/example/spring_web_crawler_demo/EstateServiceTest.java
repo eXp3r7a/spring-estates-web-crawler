@@ -17,8 +17,7 @@ import org.springframework.ui.Model;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EstateServiceTest {
@@ -55,7 +54,7 @@ public class EstateServiceTest {
         //THEN
         Assertions.assertEquals(1,returnedEstates.size());
         Assertions.assertEquals(estatesExpected,returnedEstates);
-        verify(estateRepository).searchEstates("Несебър");
+        verify(estateRepository,times(1)).searchEstates("Несебър");
     }
 
     @Test
@@ -63,7 +62,6 @@ public class EstateServiceTest {
         //GIVEN
         List<Estate> estatesExpected = new ArrayList<>();
         String expected = "Unfortunately, no listings were found with this keyword. :/";
-
         //Listing is empty
         when(estateRepository.searchEstates("Несебър")).thenReturn(estatesExpected);
 
@@ -72,6 +70,6 @@ public class EstateServiceTest {
 
         //THEN
         Assertions.assertEquals(expected,returned);
-        verify(estateRepository).searchEstates("Несебър");
+        verify(estateRepository,times(1)).searchEstates("Несебър");
     }
 }

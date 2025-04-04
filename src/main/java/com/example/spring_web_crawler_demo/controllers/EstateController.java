@@ -37,7 +37,7 @@ public class EstateController {
         if(searchedEstates.isEmpty()){
             return "Unfortunately, no listings were found with this keyword. :/";
         }else{
-            model.addAttribute("estates", estateService.searchEstates(keyword));
+            model.addAttribute("estates", searchedEstates);
             return "table/get_table";
         }
 
