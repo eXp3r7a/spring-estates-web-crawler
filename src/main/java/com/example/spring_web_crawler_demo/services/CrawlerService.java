@@ -127,10 +127,17 @@ public class CrawlerService extends WebCrawler{
     private static Estate extractEstateForOlxBg(String contentRow){
         Estate estate = new Estate();
         //Title
-        Pattern pattern = Pattern.compile("(.+?)\\s\\d{1,3}(?:\\s?\\d{3})*\\s(?:лв\\.|€)");
+        Pattern pattern = Pattern.compile("(.+?)\\s\\d{1,3}(?:\\s?\\d{3})*\\s(?:лв\\.|€|гр\\.\\s)");
         Matcher matcher = pattern.matcher(contentRow);
         if(matcher.find()){
             estate.setTitle(matcher.group(1).trim());
+        }
+        else{
+            pattern = Pattern.compile("(.+?)\\s(?:гр\\.\\s)");
+            matcher = pattern.matcher(contentRow);
+            if(matcher.find()){
+                estate.setTitle(matcher.group(1).trim());
+            }
         }
 
         //Price
@@ -144,11 +151,16 @@ public class CrawlerService extends WebCrawler{
         if(contentRow.contains("По договаряне")){
             pattern = Pattern.compile("По договаряне\\s+(.*?)-");
         }else {
-            pattern = Pattern.compile("(?:лв\\.|€)\\s+(.*?)-");
+            pattern = Pattern.compile("(?:лв\\.|€|гр\\.)\\s+(.*?)-");
         }
         matcher = pattern.matcher(contentRow);
         if (matcher.find()){
             estate.setLocation(matcher.group(1).trim());
+
+            //if missing
+            if(!estate.getLocation().contains("гр.")){
+                estate.setLocation("гр. " + estate.getLocation());
+            }
         }
 
         //Area
@@ -227,17 +239,20 @@ public class CrawlerService extends WebCrawler{
         estate.setTitle(contentRow[0]);
 
         //Area
-        if(contentRow[1].contains("кв.м")){
+        if(contentRow[1].contains("кв.м") && !contentRow[1].isBlank()){
             estate.setArea(contentRow[1]);
         }
         //Year of construction
-        if(contentRow[2].trim().length() == 4){
+        if(contentRow[2].trim().length() == 4 && !contentRow[2].isBlank()){
             estate.setYearOfConstruction(Integer.parseInt(contentRow[2].trim()));
         }
 
         //Floor
-        if(contentRow[3].length()<3){ // if true then [3] is floor
+        if(contentRow[3].length()<3 && !contentRow[3].isBlank()){ // if true then [3] is floor
             estate.setFloor(Integer.parseInt(contentRow[3]));
+        }
+        else if(contentRow[4].length()<3 && !contentRow[4].isBlank()){
+            estate.setFloor(Integer.parseInt(contentRow[4]));
         }
 
         //Price
